@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Consult a Doctor - Vedyura
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style>
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        .tab-link {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            background-color: #f1f1f1;
+        }
+        .tab-link.active {
+            background-color: #fff;
+            border-color: #ccc;
+            border-bottom: 1px solid #fff;
+            margin-bottom: -1px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .doctor-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .doctor-details {
+            flex-grow: 1;
+        }
+        .doctor-details h4 {
+            margin-top: 0;
+            color: #333;
+        }
+        .doctor-details p {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .send-request-form {
+            margin-left: 20px;
+        }
+        .offline-search-form {
+            margin-top: 20px;
+        }
+        .offline-search-form input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .offline-search-form button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<header class="main-header">
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/vedyura_logo.png') }}" alt="Vedyura Logo" class="logo-img"></a>
+        </div>
+        <div class="navbar-links">
+            <a href="{{ url_for('patient_dashboard') }}">Home</a>
+            <a href="{{ url_for('patient_self_diagnosis') }}">Self-Diagnosis</a>
+            <a href="{{ url_for('patient_consult_doctor') }}" class="active">Consult Doctor</a>
+            <a href="{{ url_for('contact_us') }}">Contact Us</a>
+            <a href="{{ url_for('patient_profile') }}">Profile</a>
+        </div>
+        <div class="navbar-action">
+            <button id="dark-mode-toggle" class="dark-mode-button">Toggle Dark Mode</button>
+        </div>
+    </nav>
+</header>
+
+<main class="page-content">
+    <section class="consult-doctor-section">
+        <div class="container">
+            <h2>Find and Consult a Doctor</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="tabs">
+                <div class="tab-link active" onclick="openTab(event, 'Online')">Online</div>
+                <div class="tab-link" onclick="openTab(event, 'Offline')">Offline</div>
+            </div>
+
+            <div id="Online" class="tab-content active">
+                <h3>Online Doctors</h3>
+                <div class="doctor-list">
+                    {% if doctors %}
+                        {% for doctor in doctors %}
+                            <div class="doctor-card">
+                                <div class="doctor-details">
+                                    <h4>Dr. {{ doctor.name }}</h4>
+                                    <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+                                    <p><strong>Experience:</strong> {{ doctor.experience }} years</p>
+                                </div>
+                                <div class="send-request-form">
+                                    <form action="{{ url_for('send_request') }}" method="post">
+                                        <input type="hidden" name="doctor_id" value="{{ doctor.id }}">
+                                        <button type="submit" class="btn btn-primary">Send Request</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No doctors are available at the moment. Please check back later.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="Offline" class="tab-content">
+                <h3>Offline Consultation</h3>
+                <p>Enter your locality to find Ayurvedic doctors near you.</p>
+                <div class="offline-search-form">
+                    <form id="offline-search-form">
+                        <input type="text" id="locality" name="locality" placeholder="Enter your city or area" required>
+                        <button type="submit">Search on Google Maps</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-link");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+document.getElementById('offline-search-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const locality = document.getElementById('locality').value;
+    const searchQuery = `ayurvedic doctor near ${locality}`;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`;
+    window.open(googleMapsUrl, '_blank');
+});
+</script>
+{% endblock %}

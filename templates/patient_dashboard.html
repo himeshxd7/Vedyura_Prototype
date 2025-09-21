@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Patient Dashboard - Vedyura
+{% endblock %}
+
+{% block content %}
+<header class="dashboard-header">
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <a href="{{ url_for('patient_dashboard') }}">
+                <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/vedyura_logo.png') }}" alt="Vedyura Logo" class="logo-img"></a>
+            </a>
+        </div>
+        <div class="navbar-links">
+            <a href="{{ url_for('patient_dashboard') }}" class="active">Home</a>
+            <a href="{{ url_for('patient_self_diagnosis') }}">Self-Diagnosis</a>
+            <a href="{{ url_for('patient_consult_doctor') }}">Consult Doctor</a>
+            <a href="{{ url_for('contact_us') }}">Contact Us</a>
+            <a href="{{ url_for('patient_profile') }}">Profile</a>
+        </div>
+        <div class="navbar-action">
+             <button id="dark-mode-toggle" class="dark-mode-button">Toggle Dark Mode</button>
+        </div>
+    </nav>
+</header>
+
+<main class="page-content dashboard-content">
+    <div class="dashboard-container">
+        <section class="page-header">
+            <h1>Welcome to Your Dashboard</h1>
+            <p>Your personalized space for managing your Ayurvedic health journey.</p>
+        </section>
+
+        <section class="quick-actions">
+            <div class="card-grid">
+                <a href="{{ url_for('patient_self_diagnosis') }}" class="card action-card">
+                    <div class="card-icon">
+                        <span>📝</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Self-Diagnosis</h3>
+                        <p>Generate a preliminary diet chart based on your inputs.</p>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('patient_consult_doctor') }}" class="card action-card">
+                    <div class="card-icon">
+                         <span>👨‍⚕️</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Consult a Doctor</h3>
+                        <p>Find and connect with our registered Ayurvedic practitioners.</p>
+                    </div>
+                </a>
+
+                <div class="card action-card">
+                    <div class="card-icon">
+                        <span>🍳</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Find Dosha-Balancing Recipes</h3>
+                        <p>Discover recipes recommended for your constitution.</p>
+                        <button id="find-recipes-btn" class="btn" style="margin-top: 15px;">Find Recipes</button>
+                        <div id="recipe-results-container" class="recipe-container" style="margin-top: 20px;">
+                            </div>
+                    </div>
+                </div>
+                </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

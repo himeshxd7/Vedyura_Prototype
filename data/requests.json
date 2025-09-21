@@ -1,0 +1,14 @@
+{
+    "requests": [
+        {
+            "doctor_id": "doctor456",
+            "patient_id": "patient123",
+            "status": "declined"
+        },
+        {
+            "doctor_id": "doctor456",
+            "patient_id": "patient123",
+            "status": "accepted"
+        }
+    ]
+}

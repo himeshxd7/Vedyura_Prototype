@@ -1,0 +1,25 @@
+{
+    "form_data": {
+        "age": "76",
+        "gender": "male",
+        "weight": "87",
+        "height": "43",
+        "body_frame": "light_lean",
+        "skin_texture": "dry_cool",
+        "hair_type": "dry_brittle",
+        "appetite": "strong_urgent",
+        "digestion": "dry_gas",
+        "thirst": "frequently_thirsty",
+        "energy_levels": "steady_enduring",
+        "stress_reaction": "anxiety_worry",
+        "sleep_pattern": "light_interrupted",
+        "speaking_style": "fast_talkative",
+        "body_temperature": "tend_to_be_cold",
+        "health_goal": "weight_gain",
+        "activity_level": "sedentary",
+        "yoga_experience": "beginner",
+        "allergies": "",
+        "medical_conditions": ""
+    },
+    "dominant_dosha": "Vata"
+}
